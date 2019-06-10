@@ -1,4 +1,4 @@
-package com.deshmukhamit.udemyspringbootrest.bean;
+package com.deshmukhamit.udemyspringbootrest.helloworld;
 
 public class HelloWorldBean {
 
