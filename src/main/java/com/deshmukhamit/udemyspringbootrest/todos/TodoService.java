@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+//import java.util.concurrent.TimeUnit;
 
 @Service
 public class TodoService {
@@ -20,6 +21,12 @@ public class TodoService {
     }
 
     public List<Todo> findAll() {
+        /*try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException ex) {
+            return todos;
+        }*/
+
         return todos;
     }
 }
