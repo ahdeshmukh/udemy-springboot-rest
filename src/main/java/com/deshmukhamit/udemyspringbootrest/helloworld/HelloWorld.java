@@ -1,10 +1,10 @@
 package com.deshmukhamit.udemyspringbootrest.helloworld;
 
-public class HelloWorldBean {
+public class HelloWorld {
 
     private String message;
 
-    public HelloWorldBean(String message) {
+    public HelloWorld(String message) {
         this.message = message;
     }
 
@@ -17,6 +17,6 @@ public class HelloWorldBean {
 
     @Override
     public String toString() {
-        return String.format("HelloWorldBean [mesage=%s]", message);
+        return String.format("HelloWorld [mesage=%s]", message);
     }
 }
