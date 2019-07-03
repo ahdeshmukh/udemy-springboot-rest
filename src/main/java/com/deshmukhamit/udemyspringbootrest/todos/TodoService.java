@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-//import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class TodoService {
@@ -31,6 +31,12 @@ public class TodoService {
     }
 
     public Todo deleteById(long id) {
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException ex) {
+            return null;
+        }
+
         Todo todo = findById(id);
         if(todo == null) return null;
         if(todos.remove(todo)) {
