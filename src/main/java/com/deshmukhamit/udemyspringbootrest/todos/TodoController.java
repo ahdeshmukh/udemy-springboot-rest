@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -40,6 +42,20 @@ public class TodoController {
 
         todoService.save(todo);
         return new ResponseEntity<>(todo, HttpStatus.OK);
+    }
+
+    @PostMapping("/users/{username}/todos")
+    public ResponseEntity<Void> addTodo(@PathVariable String username,
+                                           @RequestBody Todo todo) {
+        // Best REST practices - on POST, send the URL of the newly created resource
+        // to get the URL of new resource - get current URL and append id of the newly created todo
+        // eg: /users/{username}/todos/{id}
+
+        Todo createdTodo = todoService.save(todo);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}").buildAndExpand(createdTodo.getId()).toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 
 }
