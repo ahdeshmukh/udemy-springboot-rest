@@ -6,6 +6,7 @@ HELP.md
 
 ### Application sensitive data ###
 src/main/resources/mysql.application.properties
+src/main/resources/jwt.application.properties
 
 ### STS ###
 .apt_generated

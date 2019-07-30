@@ -1,4 +1,4 @@
-package com.deshmukhamit.udemyspringbootrest.basic.auth;
+/*package com.deshmukhamit.udemyspringbootrest.basic.auth;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,4 +23,4 @@ public class SpringSecurityBasicAuth extends WebSecurityConfigurerAdapter {
                     .and())
         ).httpBasic();
     }
-}
+}*/
