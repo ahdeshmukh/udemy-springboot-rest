@@ -1,6 +1,6 @@
 // https://dzone.com/articles/spring-boot-security-json-web-tokenjwt-hello-world
 
-package com.deshmukhamit.udemyspringbootrest.config;
+package com.deshmukhamit.udemyspringbootrest.websecurityconfig;
 
 import com.deshmukhamit.udemyspringbootrest.jwt.JwtAuthenticationEntryPoint;
 import com.deshmukhamit.udemyspringbootrest.jwt.JwtRequestFilter;
