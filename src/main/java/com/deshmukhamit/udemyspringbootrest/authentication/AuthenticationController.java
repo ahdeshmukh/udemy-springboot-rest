@@ -1,7 +1,10 @@
-// https://dzone.com/articles/spring-boot-security-json-web-tokenjwt-hello-world
+package com.deshmukhamit.udemyspringbootrest.authentication;
 
-package com.deshmukhamit.udemyspringbootrest.jwt;
 
+import com.deshmukhamit.udemyspringbootrest.jwt.JwtRequest;
+import com.deshmukhamit.udemyspringbootrest.jwt.JwtResponse;
+import com.deshmukhamit.udemyspringbootrest.jwt.JwtTokenUtil;
+import com.deshmukhamit.udemyspringbootrest.jwt.JwtUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-public class JwtAuthenticationController {
+public class AuthenticationController {
 
     @Autowired
     // if something fails, ensure Autowired is working setup correctly
@@ -25,7 +28,7 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailService jwtUserDetailService;
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         // this is failing
@@ -48,4 +51,5 @@ public class JwtAuthenticationController {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
+
 }
