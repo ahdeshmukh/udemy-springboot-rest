@@ -1,20 +1,20 @@
 // https://dzone.com/articles/spring-boot-security-json-web-tokenjwt-hello-world
 
-package com.deshmukhamit.udemyspringbootrest.myjwtauth;
+package com.deshmukhamit.udemyspringbootrest.jwt;
 
 import java.io.Serializable;
 
-public class MyJwtRequest implements Serializable {
+public class JwtRequest implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
     private String username;
     private String password;
 
     //need default constructor for JSON Parsing
-    public MyJwtRequest() {
+    public JwtRequest() {
     }
 
-    public MyJwtRequest(String username, String password) {
+    public JwtRequest(String username, String password) {
         this.setUsername(username);
         this.setPassword(password);
     }

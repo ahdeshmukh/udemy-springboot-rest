@@ -1,6 +1,6 @@
 // https://dzone.com/articles/spring-boot-security-json-web-tokenjwt-hello-world
 
-package com.deshmukhamit.udemyspringbootrest.myjwtauth;
+package com.deshmukhamit.udemyspringbootrest.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-public class MyJwtAuthenticationController {
+public class JwtAuthenticationController {
 
     @Autowired
     // if something fails, ensure Autowired is working setup correctly
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private MyJwtTokenUtil jwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private MyJwtUserDetailService jwtUserDetailService;
+    private JwtUserDetailService jwtUserDetailService;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody MyJwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         // this is failing
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -35,7 +35,7 @@ public class MyJwtAuthenticationController {
                 .loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new MyJwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 
 

@@ -1,6 +1,6 @@
 // https://dzone.com/articles/spring-boot-security-json-web-tokenjwt-hello-world
 
-package com.deshmukhamit.udemyspringbootrest.myjwtauth;
+package com.deshmukhamit.udemyspringbootrest.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class MyJwtRequestFilter extends OncePerRequestFilter {
+public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private MyJwtUserDetailService jwtUserDetailService;
+    private JwtUserDetailService jwtUserDetailService;
 
     @Autowired
-    private MyJwtTokenUtil jwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

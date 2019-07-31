@@ -2,9 +2,9 @@
 
 package com.deshmukhamit.udemyspringbootrest.config;
 
-import com.deshmukhamit.udemyspringbootrest.myjwtauth.MyJwtAuthenticationEntryPoint;
-import com.deshmukhamit.udemyspringbootrest.myjwtauth.MyJwtRequestFilter;
-import com.deshmukhamit.udemyspringbootrest.myjwtauth.MyJwtUserDetailService;
+import com.deshmukhamit.udemyspringbootrest.jwt.JwtAuthenticationEntryPoint;
+import com.deshmukhamit.udemyspringbootrest.jwt.JwtRequestFilter;
+import com.deshmukhamit.udemyspringbootrest.jwt.JwtUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,13 +25,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private MyJwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    private MyJwtUserDetailService jwtUserDetailsService;
+    private JwtUserDetailService jwtUserDetailsService;
 
     @Autowired
-    private MyJwtRequestFilter jwtRequestFilter;
+    private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -46,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

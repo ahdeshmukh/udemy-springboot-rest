@@ -1,6 +1,6 @@
 // https://dzone.com/articles/spring-boot-security-json-web-tokenjwt-hello-world
 
-package com.deshmukhamit.udemyspringbootrest.myjwtauth;
+package com.deshmukhamit.udemyspringbootrest.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 @Service
-public class MyJwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
+public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 
     private static final long serialVersionUID = -7858869558953243875L;
 

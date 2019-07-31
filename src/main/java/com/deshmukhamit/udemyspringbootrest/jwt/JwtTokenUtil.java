@@ -1,6 +1,6 @@
 // https://dzone.com/articles/spring-boot-security-json-web-tokenjwt-hello-world
 
-package com.deshmukhamit.udemyspringbootrest.myjwtauth;
+package com.deshmukhamit.udemyspringbootrest.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 @Component
 // Util class to create and validate JWT Token
-public class MyJwtTokenUtil implements Serializable {
+public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -2550185165626007488L;
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
