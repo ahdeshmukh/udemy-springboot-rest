@@ -9,8 +9,8 @@ public class DAOUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column
+    private int id;
+    @Column(length = 40)
     private String username;
     @Column
     @JsonIgnore
