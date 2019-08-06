@@ -4,7 +4,7 @@ package com.deshmukhamit.udemyspringbootrest.websecurityconfig;
 
 import com.deshmukhamit.udemyspringbootrest.jwt.JwtAuthenticationEntryPoint;
 import com.deshmukhamit.udemyspringbootrest.jwt.JwtRequestFilter;
-import com.deshmukhamit.udemyspringbootrest.jwt.JwtUserDetailService;
+import com.deshmukhamit.udemyspringbootrest.jwt.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    private JwtUserDetailService jwtUserDetailsService;
+    private JwtUserDetailsService jwtUserDetailsService;
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
