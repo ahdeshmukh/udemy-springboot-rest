@@ -1,0 +1,8 @@
+# comma separated list of allowed domains.
+# ex: https://domanin1.com,https://domain2.com
+# ex: http://domanin1.com,http://domain2.com
+# ex: https://domanin1.com,http://domain2.com
+# ex: https://domanin1.com
+# ex: http://domanin1.com
+
+mycors.allowed.domains = CORS_ALLOWED_DOMAINS_LIST
