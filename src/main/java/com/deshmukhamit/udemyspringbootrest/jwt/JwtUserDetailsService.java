@@ -29,13 +29,5 @@ public class JwtUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 new ArrayList<>());
 
-        // Password generated at https://bcrypt-generator.com/ for string "password"
-        // Todo: instead of single value john.doe, use array with multiple user names, password can remain the same
-//        if("john.doe".equals(username)) {
-//            return new User(username,"$2a$10$mooHRvqfH.TNjQcQoi2RdeQ8xtbTHRCq9cRlAhjKvlNfessvJXDBW",
-//                    new ArrayList<>());
-//        } else {
-//            throw new UsernameNotFoundException("User not found with username: " + username);
-//        }
     }
 }
