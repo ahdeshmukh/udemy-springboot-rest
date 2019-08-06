@@ -5,9 +5,10 @@ import com.deshmukhamit.udemyspringbootrest.jwt.JwtRequest;
 import com.deshmukhamit.udemyspringbootrest.jwt.JwtResponse;
 import com.deshmukhamit.udemyspringbootrest.jwt.JwtTokenUtil;
 import com.deshmukhamit.udemyspringbootrest.jwt.JwtUserDetailsService;
+import com.deshmukhamit.udemyspringbootrest.user.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

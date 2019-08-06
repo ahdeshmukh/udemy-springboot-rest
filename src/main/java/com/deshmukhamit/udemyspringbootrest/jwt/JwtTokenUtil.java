@@ -2,11 +2,12 @@
 
 package com.deshmukhamit.udemyspringbootrest.jwt;
 
+import com.deshmukhamit.udemyspringbootrest.user.UserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -26,8 +27,8 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.secret}")
     private String secret;
 
-    // retrieve username from JWT token
-    public String getUsernameFromToken(String token) {
+    // retrieve id from JWT token
+    public String getIdFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -59,7 +60,7 @@ public class JwtTokenUtil implements Serializable {
     //generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
+        return doGenerateToken(claims, Integer.toString(userDetails.getId()));
     }
 
     //while creating the token -
@@ -78,7 +79,7 @@ public class JwtTokenUtil implements Serializable {
 
     //validate token
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String username = getIdFromToken(token);
+        return (username.equals(Integer.toString(userDetails.getId())) && !isTokenExpired(token));
     }
 }

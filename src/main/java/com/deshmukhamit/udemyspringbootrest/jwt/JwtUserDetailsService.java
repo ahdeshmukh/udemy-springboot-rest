@@ -3,9 +3,11 @@
 package com.deshmukhamit.udemyspringbootrest.jwt;
 
 import com.deshmukhamit.udemyspringbootrest.user.DAOUser;
+import com.deshmukhamit.udemyspringbootrest.user.User;
+import com.deshmukhamit.udemyspringbootrest.user.UserDetails;
 import com.deshmukhamit.udemyspringbootrest.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -26,8 +28,19 @@ public class JwtUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+        return new User(user.getId(), user.getUsername(), user.getPassword(),
                 new ArrayList<>());
 
     }
+
+    public UserDetails loadUserById(int id) {
+        // Todo: create a new ResourceNotFound Exception class and throw it here
+
+        DAOUser user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+
+        return new User(user.getId(), user.getUsername(), user.getPassword(),
+                new ArrayList<>());
+    }
+
 }
