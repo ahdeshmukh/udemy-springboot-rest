@@ -3,7 +3,7 @@
 package com.deshmukhamit.udemyspringbootrest.jwt;
 
 import com.deshmukhamit.udemyspringbootrest.user.DAOUser;
-import com.deshmukhamit.udemyspringbootrest.user.User;
+import com.deshmukhamit.udemyspringbootrest.user.UserDetailsImpl;
 import com.deshmukhamit.udemyspringbootrest.user.UserDetails;
 import com.deshmukhamit.udemyspringbootrest.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,10 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         DAOUser user = userRepository.findByUsername(username);
         if(user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+            throw new UsernameNotFoundException("UserDetailsImpl not found with username: " + username);
         }
 
-        return new User(user.getId(), user.getUsername(), user.getPassword(),
+        return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(),
                 new ArrayList<>());
 
     }
@@ -39,7 +39,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         DAOUser user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
-        return new User(user.getId(), user.getUsername(), user.getPassword(),
+        return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(),
                 new ArrayList<>());
     }
 
