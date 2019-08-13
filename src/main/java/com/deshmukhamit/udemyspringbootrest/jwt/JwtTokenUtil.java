@@ -21,7 +21,7 @@ import java.util.function.Function;
 public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -2550185165626007488L;
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 1 * 60 * 60; // hr * min * sec
 
 
     @Value("${jwt.secret}")
@@ -29,6 +29,11 @@ public class JwtTokenUtil implements Serializable {
 
     // retrieve id from JWT token
     public String getIdFromToken(String token) {
+        return getClaimFromToken(token, "uid");
+    }
+
+    // retrieve subject from JWT token
+    public String getSubjectFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -42,6 +47,11 @@ public class JwtTokenUtil implements Serializable {
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
+    }
+
+    public String getClaimFromToken(String token, String key) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return (String) claims.get(key);
     }
 
     //get all Claims from token
@@ -60,26 +70,31 @@ public class JwtTokenUtil implements Serializable {
     //generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, Integer.toString(userDetails.getId()));
+        return doGenerateToken(claims, userDetails);
     }
 
     //while creating the token -
     //1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
     //2. Sign the JWT using the HS512 algorithm and secret key.
     //3. compact the JWT to a URL-safe string (https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
+    private String doGenerateToken(Map<String, Object> claims, UserDetails userDetails) {
+        HashMap<String, Object> customClaims = new HashMap<>();
+        customClaims.put("uid", Integer.toString(userDetails.getId()));
+        customClaims.put("cts", new Date(System.currentTimeMillis()/1000L)); // cts = current time stamp
+
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(subject)
+                .setSubject(Integer.toString(userDetails.getId()))
+                .addClaims(customClaims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + (JWT_TOKEN_VALIDITY * 1000)))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
     //validate token
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = getIdFromToken(token);
-        return (username.equals(Integer.toString(userDetails.getId())) && !isTokenExpired(token));
+        final String id = getIdFromToken(token);
+        return (id.equals(Integer.toString(userDetails.getId())) && !isTokenExpired(token));
     }
 }
