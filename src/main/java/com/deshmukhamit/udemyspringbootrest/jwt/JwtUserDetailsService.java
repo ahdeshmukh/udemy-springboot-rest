@@ -23,22 +23,25 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        DAOUser user = userRepository.findByUsername(username);
-        if(user == null) {
-            throw new UsernameNotFoundException("UserDetailsImpl not found with username: " + username);
-        }
+        DAOUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
         return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(),
                 new ArrayList<>());
 
     }
 
-    public UserDetails loadUserById(int id) {
+    /*public UserDetails loadUserById(int id) {
         // Todo: create a new ResourceNotFound Exception class and throw it here
 
         DAOUser user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
+        return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(),
+                new ArrayList<>());
+    }*/
+
+    public UserDetails loadUser(DAOUser user) {
         return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(),
                 new ArrayList<>());
     }
