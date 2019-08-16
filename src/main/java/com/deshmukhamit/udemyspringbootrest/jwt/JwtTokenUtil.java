@@ -42,6 +42,10 @@ public class JwtTokenUtil implements Serializable {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
+    //retrieve issue date from JWT token
+    public Date getIssueDateFromToken(String token) {
+        return getClaimFromToken(token, Claims::getIssuedAt);
+    }
 
     // get specific Claim from token
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
@@ -59,7 +63,6 @@ public class JwtTokenUtil implements Serializable {
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
-
 
     //check if the token has expired
     private Boolean isTokenExpired(String token) {
@@ -80,7 +83,6 @@ public class JwtTokenUtil implements Serializable {
     private String doGenerateToken(Map<String, Object> claims, UserDetails userDetails) {
         HashMap<String, Object> customClaims = new HashMap<>();
         customClaims.put("uid", Integer.toString(userDetails.getId()));
-        customClaims.put("cts", new Date(System.currentTimeMillis()/1000L)); // cts = current time stamp
 
         return Jwts.builder()
                 .setClaims(claims)

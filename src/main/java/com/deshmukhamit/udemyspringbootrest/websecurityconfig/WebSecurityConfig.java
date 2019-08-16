@@ -90,7 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowedOrigins(corsAllowedDomains.getCorsAllowedDomains());
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type"));
-        configuration.setExposedHeaders(Arrays.asList("JWT-TOKEN"));
+        configuration.setExposedHeaders(Arrays.asList("NEW-JWT-TOKEN"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

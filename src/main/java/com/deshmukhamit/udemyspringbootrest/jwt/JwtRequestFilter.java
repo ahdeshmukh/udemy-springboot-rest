@@ -2,6 +2,7 @@
 
 package com.deshmukhamit.udemyspringbootrest.jwt;
 
+import com.deshmukhamit.udemyspringbootrest.globals.LoggedInUser;
 import com.deshmukhamit.udemyspringbootrest.user.DAOUser;
 import com.deshmukhamit.udemyspringbootrest.user.UserDetails;
 import com.deshmukhamit.udemyspringbootrest.user.UserService;
@@ -14,6 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +36,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private UserService userService;
 
+    @Resource(name = "requestScopedBean")
+    LoggedInUser loggedInUser;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
@@ -42,6 +47,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         int id = 0;
         String jwtToken = null;
+
         // JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
@@ -58,7 +64,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         // Once we get the token validate it.
         if (id != 0 && SecurityContextHolder.getContext().getAuthentication() == null) {
-            //UserDetails userDetails = this.jwtUserDetailsService.loadUserById(id);
 
             DAOUser user = userService.findUserById(id);
 
@@ -67,24 +72,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // if token is valid configure Spring Security to manually set authentication
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
 
+                loggedInUser.setUser(user);
+                loggedInUser.setJwtToken(jwtToken);
+
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
 
-                usernamePasswordAuthenticationToken
-                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 // After setting the Authentication in the context, we specify that the current user is authenticated.
                 // So it passes the Spring Security Configurations successfully.
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
-
-                // JWT is still valid, but we don't want a user to get kicked out in middle of active session after current JWT expires
-                // so renew the JWT after every 15 mins.
-                // this looks like a good compromise and we don't have to issue a new JWT after every request
-
-                //Date jwtExpDate = jwtTokenUtil.getExpirationDateFromToken(jwtToken);
-                //Date curDate = new Date();
-
             }
         }
 
