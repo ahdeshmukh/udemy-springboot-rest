@@ -11,7 +11,7 @@ public class GlobalBeans {
 
     @Bean
     @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public LoggedInUser requestScopedBean() {
+    public LoggedInUser loggedInUserRequestScopeBean() {
         return new LoggedInUser();
     }
 }

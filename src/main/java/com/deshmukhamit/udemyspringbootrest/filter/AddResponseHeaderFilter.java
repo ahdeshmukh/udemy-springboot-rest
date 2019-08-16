@@ -20,7 +20,7 @@ import java.time.ZoneOffset;
 @Component
 public class AddResponseHeaderFilter extends OncePerRequestFilter {
 
-    @Resource(name = "requestScopedBean")
+    @Resource(name = "loggedInUserRequestScopeBean")
     LoggedInUser loggedInUser;
 
     @Autowired

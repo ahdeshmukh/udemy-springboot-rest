@@ -36,7 +36,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private UserService userService;
 
-    @Resource(name = "requestScopedBean")
+    @Resource(name = "loggedInUserRequestScopeBean")
     LoggedInUser loggedInUser;
 
     @Override
