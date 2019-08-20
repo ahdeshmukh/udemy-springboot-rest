@@ -2,17 +2,18 @@
 
 package com.deshmukhamit.udemyspringbootrest.jwt;
 
+import com.deshmukhamit.udemyspringbootrest.exception.ResourceNotFoundException;
 import com.deshmukhamit.udemyspringbootrest.user.DAOUser;
-import com.deshmukhamit.udemyspringbootrest.user.UserDetailsImpl;
 import com.deshmukhamit.udemyspringbootrest.user.UserDetails;
+import com.deshmukhamit.udemyspringbootrest.user.UserDetailsImpl;
 import com.deshmukhamit.udemyspringbootrest.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+
+//import org.springframework.security.core.userdetails.UserDetails;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
@@ -21,10 +22,16 @@ public class JwtUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws ResourceNotFoundException {
 
-        DAOUser user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        DAOUser user = userRepository.findByUsername(username);
+
+        if(user == null) {
+            throw new ResourceNotFoundException("User", "username", username);
+        }
+                //.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+
 
         return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(),
                 new ArrayList<>());

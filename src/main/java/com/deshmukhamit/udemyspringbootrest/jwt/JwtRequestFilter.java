@@ -2,6 +2,7 @@
 
 package com.deshmukhamit.udemyspringbootrest.jwt;
 
+import com.deshmukhamit.udemyspringbootrest.exception.ResourceNotFoundException;
 import com.deshmukhamit.udemyspringbootrest.globals.LoggedInUser;
 import com.deshmukhamit.udemyspringbootrest.user.DAOUser;
 import com.deshmukhamit.udemyspringbootrest.user.UserDetails;
@@ -66,6 +67,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (id != 0 && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             DAOUser user = userService.findUserById(id);
+
+            if(user == null) {
+                throw new ResourceNotFoundException("User", "id", id);
+            }
 
             UserDetails userDetails = jwtUserDetailsService.loadUser(user);
 
