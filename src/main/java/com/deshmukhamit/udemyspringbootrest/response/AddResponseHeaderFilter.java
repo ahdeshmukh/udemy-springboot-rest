@@ -1,4 +1,4 @@
-package com.deshmukhamit.udemyspringbootrest.filter;
+package com.deshmukhamit.udemyspringbootrest.response;
 
 import com.deshmukhamit.udemyspringbootrest.globals.LoggedInUser;
 import com.deshmukhamit.udemyspringbootrest.jwt.JwtTokenUtil;
