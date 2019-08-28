@@ -1,77 +1,56 @@
 package com.deshmukhamit.udemyspringbootrest.todos;
 
+import com.deshmukhamit.udemyspringbootrest.user.DAOUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.CreatedDate;
+
+import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
+@Entity
+@Table(name = "todo")
 public class Todo {
-    private long id;
-    private String username;
-    private String description;
 
-    protected Todo() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
+    @Column(length = 100, nullable = false)
+    private String title;
+
+    @Column(name = "created_on", nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Date createdOn = new Date();
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private DAOUser user;
+
+    public int getId() {
+        return id;
     }
-
-    public Todo(long id, String username, String description, Date targetDate, boolean isDone) {
-        this.id = id;
-        this.username = username;
-        this.description = description;
-        this.targetDate = targetDate;
-        this.isDone = isDone;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Todo todo = (Todo) o;
-        return id == todo.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getTargetDate() {
-        return targetDate;
-    }
-
-    public void setTargetDate(Date targetDate) {
-        this.targetDate = targetDate;
-    }
-
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public void setDone(boolean done) {
-        isDone = done;
-    }
-
-    private Date targetDate;
-    private boolean isDone;
-
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
-    public long getId() {
-        return this.id;
+
+    public String getTitle() {
+        return title;
     }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public int getUserId() { return user.getId();}
+
 }
